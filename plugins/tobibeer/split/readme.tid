@@ -1,0 +1,3 @@
+title: $:/plugins/tobibeer/split/readme
+
+Provides the filter `split[]`, splitting input titles at a defined operand.

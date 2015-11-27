@@ -1,0 +1,13 @@
+created: 20151127145020936
+creator: Tobias Beer
+modified: 20151127150610367
+tags: 
+title: split-Info
+type: text/vnd.tiddlywiki
+
+The plugin [[$:/plugins/tobibeer/split]] provides:
+
+; split[]
+: a filter allowing you to split titles by a given operand
+
+<<plugin-docs-cp split>>

@@ -1,0 +1,37 @@
+created: 20151127150718797
+creator: Tobias Beer
+modified: 20151127153808082
+tags: 
+title: split-Parameters
+type: text/vnd.tiddlywiki
+
+!! Operand
+
+The operand of ''split[]'' defines the characters by which to split input titles.
+
+!! Suffix
+
+You can define a number of suffix elements some of which can be meaningfully combined, e.g:
+
+`split:suffix suffix suffix[operand]`
+
+; +
+: adds the operand to the split titles
+; +(string)
+: appends `string` to the split titles
+; (string)+
+: prepends `string` to the split titles
+; trim
+: trims all blanks from split titles
+; first
+: returns the first title of the split
+; !first
+: returns all but the first title of the split
+; last
+: returns the last title of the split
+; !last
+: returns all but the last title of the split
+; $
+: instead of the split titles, passes all those input titles that contained the operand
+; $all
+: instead of the split titles, if any of the input titles could be split by the operand, passes all input titles, unmodified

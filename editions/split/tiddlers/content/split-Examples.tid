@@ -1,0 +1,38 @@
+created: 20151127145153951
+creator: Tobias Beer
+modified: 20151127153736983
+tags: 
+title: split-Examples
+type: text/vnd.tiddlywiki
+
+For details see [[parameters|split-Parameters]]...
+
+<<` """{{{ "foo-bar" +[split[-]] }}}""">>
+
+<<` """{{{ "foo-bar" baz [[mumble-frotz]] +[split[-]] }}}""">>
+
+<<` """{{{ "foo-bar" +[split:+[-]] }}}""">>
+
+<<` """{{{ "foo-bar" +[split:+(...)[-]] }}}""">>
+
+<<` """{{{ "foo-bar" +[split:(...)+[-]] }}}""">>
+
+<<` """{{{ "foo-bar-baz" +[split:first[-]] }}}""">>
+
+<<` """{{{ "foo   -  bar -  baz" +[split:first + trim[-]] }}}""">>
+
+<<` """{{{ "foo-bar-baz" +[split:!first[-]] }}}""">>
+
+<<` """{{{ "foo-bar-baz" +[split:last[-]] }}}""">>
+
+<<` """{{{ "foo-bar-baz" +[split:!last[-]] }}}""">>
+
+<<` """{{{ "foo-bar" baz +[split:$[-]] }}}""">>
+
+<$macrocall $name=` text="""{{{ [[foo - bar]] +[split:[-]addsuffix[x]] }}}"""/>
+
+<$macrocall $name=` text="""{{{[[foo - bar]] +[split:trim[-]addsuffix[x]] }}}"""/>
+
+<<` """{{{ [!is[system]!split:$[-]] }}}""">>
+
+<<` """{{{ [!is[system]split:$all[-]] }}}""">>
