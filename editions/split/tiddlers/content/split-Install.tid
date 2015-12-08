@@ -1,6 +1,6 @@
 created: 20151127143704922
 creator: Tobias Beer
-modified: 20151208215529169
+modified: 20151208224347325
 tags: 
 title: split-Install
 type: text/vnd.tiddlywiki
@@ -9,7 +9,11 @@ type: text/vnd.tiddlywiki
 
 !! Version History
 
-; 0.5.5 / 2015-12-08
+; 0.5.8 / 2015-12-08
+: now ignores blanks, should the split characters be at the beginning or end
+; 0.5.7 / 2015-12-08
+: now returns empty results for ''!last'' and ''!first'' should split have a length of 1
+; 0.5.6 / 2015-12-08
 : ''bugfix'' — mixed up `+(...)` and `(...)+` in ''0.5.5''
 ; 0.5.5 / 2015-12-08
 : added suffixed ''at'' & ''keep''

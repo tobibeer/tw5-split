@@ -17,6 +17,7 @@ Filter operator that splits each item at a specified separator.
 Export filter function
 */
 exports.split = function(source,operator) {
+	console.log("SUFFFFFFFIX",operator.suffix);
 	var append = "", at, i, keep, mode, neg, prepend = "", trim, was,
 		split = operator.operand,
 		negate = operator.prefix === "!",
@@ -88,9 +89,11 @@ exports.split = function(source,operator) {
 					if(trim) {
 						item = item.trim();
 					}
-					item = prepend + item + append;
-					if(results.indexOf(item) < 0) {
-						results.push(item);
+					if(item) {
+						item = prepend + item + append;
+						if(results.indexOf(item) < 0) {
+							results.push(item);
+						}
 					}
 				}
 			);
@@ -116,14 +119,18 @@ exports.split = function(source,operator) {
 				break;
 			case "first":
 				if(neg) {
-					results = results.splice(1);
+					results = results.length === 1 ? [] : results.splice(1);
 				} else {
 					results.splice(1);
 				}
 				break;
 			case "last":
 				if(neg) {
-					results.splice(results.length-1);
+					if(results.length > 1){
+						results.splice(results.length-1);
+					} else {
+						results = [];
+					}
 				} else {
 					results = results.splice(results.length-1);
 				}
