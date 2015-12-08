@@ -45,9 +45,9 @@ exports.split = function(source,operator) {
 			}],
 			[/^(?:\+\(([^\)]*)\)|\(([^\)]*)\)\+)(?:\s|$)/, function(match) {
 				if (match[1]) {
-					prepend = match[1];
+					append = match[1];
 				} else {
-					append = match[2];
+					prepend = match[2];
 				}
 			}]
 		];

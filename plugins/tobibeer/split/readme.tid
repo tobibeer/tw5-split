@@ -1,6 +1,6 @@
 title: $:/plugins/tobibeer/split/readme
 
-Provides the filter `split[]`, splitting input titles at a string defined in the operand.
+Provides the filter `split[by]`, splitting input titles `by` a string defined in the operand.
 
 ; suffixes
 : `+` — add operand to split titles
