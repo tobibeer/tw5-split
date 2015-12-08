@@ -1,6 +1,6 @@
 created: 20151127145153951
 creator: Tobias Beer
-modified: 20151208212119900
+modified: 20151208220526129
 tags: 
 title: split-Examples
 type: text/vnd.tiddlywiki
@@ -45,6 +45,10 @@ For details see [[parameters|split-Parameters]]...
 
 <$macrocall $name=` text="""{{{[[foo - bar]] +[split:trim[-]addsuffix[x]] }}}"""/>
 
-<<` """{{{ [!is[system]!split:$[-]] }}}""">>
+<<` """{{{ [split:$[split-]] }}}""">>
 
-<<` """{{{ [!is[system]split:$all[-]] }}}""">>
+<<` """{{{ [prefix[split]split:$[-I]] }}}""">>
+
+<<` """{{{ [prefix[split]split:$all[-I]] }}}""">>
+
+<<` """{{{ [prefix[split]split:$ keep[-I]] }}}""">>
