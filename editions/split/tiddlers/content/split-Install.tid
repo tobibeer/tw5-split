@@ -1,6 +1,6 @@
 created: 20151127143704922
 creator: Tobias Beer
-modified: 20151208214139420
+modified: 20151208215529169
 tags: 
 title: split-Install
 type: text/vnd.tiddlywiki
@@ -9,6 +9,8 @@ type: text/vnd.tiddlywiki
 
 !! Version History
 
+; 0.5.5 / 2015-12-08
+: ''bugfix'' — mixed up `+(...)` and `(...)+` in ''0.5.5''
 ; 0.5.5 / 2015-12-08
 : added suffixed ''at'' & ''keep''
 : safer suffix parsing
