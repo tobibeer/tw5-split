@@ -1,6 +1,6 @@
 created: 20151127150718797
 creator: Tobias Beer
-modified: 20151127153808082
+modified: 20151208211407558
 tags: 
 title: split-Parameters
 type: text/vnd.tiddlywiki
@@ -31,6 +31,11 @@ You can define a number of suffix elements some of which can be meaningfully com
 : returns the last title of the split
 ; !last
 : returns all but the last title of the split
+; at
+: splits the input title in two at the character specified as a number in the operand
+: returns nothing should the input title be shorter than the specified number
+; keep
+: returns the title even if nothing was split
 ; $
 : instead of the split titles, passes all those input titles that contained the operand
 ; $all
