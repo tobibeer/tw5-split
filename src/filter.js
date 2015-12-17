@@ -1,5 +1,5 @@
 /*\
-title: $:/plugins/tobibeer/split/split.js
+title: $:/plugins/tobibeer/split/filter.js
 type: application/javascript
 module-type: filteroperator
 
@@ -17,7 +17,6 @@ Filter operator that splits each item at a specified separator.
 Export filter function
 */
 exports.split = function(source,operator) {
-	console.log("SUFFFFFFFIX",operator.suffix);
 	var append = "", at, i, keep, mode, neg, prepend = "", trim, was,
 		split = operator.operand,
 		negate = operator.prefix === "!",
