@@ -17,7 +17,7 @@ Filter operator that splits each item at a specified separator.
 Export filter function
 */
 exports.split = function(source,operator) {
-	var append = "", at, i, keep, mode, neg, prepend = "", trim, was,
+	var append = "", at, i, keep, mode, neg, prepend = "", trim, unique, was,
 		split = operator.operand,
 		negate = operator.prefix === "!",
 		s = operator.suffix || "",
@@ -30,14 +30,17 @@ exports.split = function(source,operator) {
 				append = split;
 			}],
 			[/^trim(?:\s|$)/i, function() {
-				trim = true;
+				trim = 1;
+			}],
+			[/^unique(?:\s|$)/i, function() {
+				unique = 1;
 			}],
 			[/^at(?:\s|$)/i, function() {
 				at = parseInt(split);
 				at = (isNaN(at) ? 0 : at) -1;
 			}],
 			[/^keep(?:\s|$)/i, function() {
-				keep = true;
+				keep = 1;
 			}],
 			[/^(\!)?(first|last|\$all|\$)(?:\s|$)/i, function(match) {
 				mode = match[2];
@@ -90,7 +93,7 @@ exports.split = function(source,operator) {
 					}
 					if(item) {
 						item = prepend + item + append;
-						if(results.indexOf(item) < 0) {
+						if(!unique || unique  && results.indexOf(item) < 0) {
 							results.push(item);
 						}
 					}

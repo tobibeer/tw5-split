@@ -1,8 +1,8 @@
 created: 20151127150718797
 creator: Tobias Beer
-modified: 20151208211407558
+modified: 20151222220118266
 tags: 
-title: split-Parameters
+title: split-Syntax
 type: text/vnd.tiddlywiki
 
 !! Operand
@@ -36,6 +36,9 @@ You can define a number of suffix elements some of which can be meaningfully com
 : returns nothing should the input title be shorter than the specified number
 ; keep
 : returns the title even if nothing was split
+; unique
+: prevents duplicates in the output
+:: this would be the default behavior of ~TiddlyWiki filters that treat titles more as sets of unique titles rather than lists of arbitrary strings
 ; $
 : instead of the split titles, passes all those input titles that contained the operand
 ; $all

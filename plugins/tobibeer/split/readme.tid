@@ -11,6 +11,7 @@ Provides the filter `split[by]`, splitting input titles `by` a string defined in
 : `last` — last title of the split => `!last` = all but last
 : `at` — split in two at number in the operand
 : `keep` — return title even if nothing was split
+: `unique` — prevents duplicate titles in the output
 : `$` — return input titles that could have been split
 : `$all` — return all input titles if any is splittable
 
