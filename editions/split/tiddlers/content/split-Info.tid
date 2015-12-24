@@ -9,5 +9,6 @@ The plugin [[$:/plugins/tobibeer/split]] provides:
 
 ; split[]
 : a filter allowing you to split titles by a given operand
+: allowing you to [[slice and dice the output list|split-Items]] as needed
 
 <<plugin-docs-cp split>>

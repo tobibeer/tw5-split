@@ -1,6 +1,7 @@
 created: 20151127150718797
 creator: Tobias Beer
-modified: 20151222220118266
+modified: 20151224132446468
+modifier: Tobias Beer
 tags: 
 title: split-Syntax
 type: text/vnd.tiddlywiki
@@ -15,31 +16,25 @@ You can define a number of suffix elements some of which can be meaningfully com
 
 `split:suffix suffix suffix[operand]`
 
+; $
+: instead of the split items, returns all those input titles that yield split items
+; $all
+: instead of the split items, if any of the input titles that yield split items, returns all input titles, unmodified
 ; +
-: adds the operand to the split titles
+: adds the operand to the split items
 ; +(string)
-: appends `string` to the split titles
+: appends `string` to the split items
 ; (string)+
-: prepends `string` to the split titles
+: prepends `string` to the split items
 ; trim
-: trims all blanks from split titles
-; first
-: returns the first title of the split
-; !first
-: returns all but the first title of the split
-; last
-: returns the last title of the split
-; !last
-: returns all but the last title of the split
+: trims all blanks from split items
+; pos, num, first, !first, last, !last / $pos, $num, $first, !$first, $last, !$last
+: see [[Items|split-Items]]
 ; at
-: splits the input title in two at the character specified as a number in the operand
+: splits the input title in two items at the character specified as a number in the operand
 : returns nothing should the input title be shorter than the specified number
 ; keep
-: returns the title even if nothing was split
+: returns the input title even it was not split as requested
 ; unique
 : prevents duplicates in the output
 :: this would be the default behavior of ~TiddlyWiki filters that treat titles more as sets of unique titles rather than lists of arbitrary strings
-; $
-: instead of the split titles, passes all those input titles that contained the operand
-; $all
-: instead of the split titles, if any of the input titles could be split by the operand, passes all input titles, unmodified

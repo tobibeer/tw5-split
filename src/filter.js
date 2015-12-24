@@ -17,129 +17,278 @@ Filter operator that splits each item at a specified separator.
 Export filter function
 */
 exports.split = function(source,operator) {
-	var append = "", at, i, keep, mode, neg, prepend = "", trim, unique, was,
-		split = operator.operand,
-		negate = operator.prefix === "!",
+	var was,
+		// Shorthand for suffix
 		s = operator.suffix || "",
-		input = [], has = [], not = [], results = [],
+		// Output arrays
+		has=[],input=[],not=[],results=[],
+		// Defaults for options object ...using one simplifies debugging a lot
+		$ = {
+			// Global negation
+			negate: operator.prefix === "!",
+			// Splitting by the operand
+			split: operator.operand,
+			// No prefix or suffix
+			prefix: "",
+			suffix: "",
+			// Default both lengths to 1 if not specified
+			num: 1,
+			$num: 1
+		},
+		// Suffix regexp patterns
 		suffixes = [
-			[/^\s/, function() {
-				//just consume
+			// One or more White-spaces
+			[/^\s+/, function() {
+				// Just consume
 			}],
-			[/^\+(?:\s|$)/, function() {
-				append = split;
+			// Any of num:<num>, pos:<num>, $num:<num>, $pos:<num> ...ignore case
+			[/^(num|pos|\$num|\$pos)=(n|-n|\d+|-\d+)(?:\s|$)/i, function(match) {
+				// Remember how many for marker
+				$[match[1]] = match[2];
+				// Output mode?
+				if(match[1].charAt(0) === "$") {
+					// Set $pos as mode
+					$.mode = "$pos";
+				}
+				// Only final number given but no final pos (yet)?
+				if(match[1] === "$num" && !$.$pos) {
+					// Set num to first
+					$.$pos = 1;
+				}
+				// Only number given but no pos (yet)?
+				if(match[1] === "num" && !$.pos) {
+					// Set num to first
+					$.pos = 1;
+				}
 			}],
-			[/^trim(?:\s|$)/i, function() {
-				trim = 1;
+			// Any of at, first, last, keep, strict or unique ...ignore case
+			[/^(\+|at|first|!first|last|!last|keep|strict|$strict|trim|unique)(?:\s|$)/i, function(match) {
+				// The match
+				var m = match[1];
+				// By default set option to 1
+				$[m] = 1;
+				// Check variants
+				switch(m) {
+					// Operand as prefix
+					case "+":
+						$.suffix = $.split;
+						break;
+					// Split at character
+					case "at":
+						// Parse as num
+						$.at = parseInt($.split);
+						// Not a number?
+						if(isNaN($.at)) {
+							// Error
+							throw "suffix 'at' must be a number: " + $.at;
+						// Got a number?
+						} else {
+							// Subtract one for array ops
+							$.at = $.at - 1;
+						}
+						break;
+					// First?
+					case "first":
+						// Set pos to first
+						$.pos = 1;
+						break;
+					// All but first?
+					case "!first":
+						// Set pos to second
+						$.pos = 2;
+						// Set num to end
+						$.num = "n";
+						break;
+					// Last?
+					case "last":
+						// Set pos to last
+						$.pos = "n";
+						break;
+					// All but last?
+					case "!last":
+						// Set pos to second last
+						$.pos = "-2";
+						// Set num to "-n", i.e. first
+						$.num = "-n";
+						break;
+				}
 			}],
-			[/^unique(?:\s|$)/i, function() {
-				unique = 1;
+			// Any of $first, $last, $all or $ ...ignore case
+			[/^(\!)?(\$|\$all|\$first|\$last)(?:\s|$)/i, function(match) {
+				// The match
+				var m = match[2];
+				// Remember mode
+				$.mode = m;
+				// And negation
+				$.neg = match[1] ? 1 : 0;
+				// Want final first?
+				if(m === "$first") {
+					if($.neg) {
+						// Set final pos to second
+						$.$pos = 2;
+						// Set final num to end
+						$.$num = "n";
+					} else {
+						// Set final pos to first
+						$.$pos = 1;
+					}
+				// Want final last?
+				} else if(m === "$last"){
+					if($.neg) {
+						// Set final pos to second last
+						$.$pos = "-2";
+						// Set final num to "-n", i.e. first
+						$.$num = "-n";
+					} else {
+						// Set final pos to last
+						$.$pos = "n";
+					}
+				}
 			}],
-			[/^at(?:\s|$)/i, function() {
-				at = parseInt(split);
-				at = (isNaN(at) ? 0 : at) -1;
-			}],
-			[/^keep(?:\s|$)/i, function() {
-				keep = 1;
-			}],
-			[/^(\!)?(first|last|\$all|\$)(?:\s|$)/i, function(match) {
-				mode = match[2];
-				neg = match[1] ? true : false;
-			}],
-			[/^(?:\+\(([^\)]*)\)|\(([^\)]*)\)\+)(?:\s|$)/, function(match) {
+			// Any of +(any thing) or (any thing)+
+			[/^(?:\+\(([^\)]*)\)|\(([^\)]*)\)\+)/, function(match) {
+				// Prefix match?
 				if (match[1]) {
-					append = match[1];
+					// Set prefix
+					$.prefix = match[1];
+				// Suffix match?
 				} else {
-					prepend = match[2];
+					// Set suffix
+					$.suffix = match[2];
 				}
 			}]
 		];
+	// Catch errors
+	try {
+	// Still got some suffix left?
 	while(s){
+		// Remember suffix remainder we started out with
 		was = s;
+		// Loop suffix regex patterns
 		$tw.utils.each(suffixes, function(m) {
+			// Test pattern
 			var match = m[0].exec(s);
+			// Got a match?
 			if(match) {
+				// Call handler function
 				m[1].call(this,match);
+				// Consume
 				s = s.substr(match[0].length);
+				// Start over
 				return false;
 			}
 		});
-		// no match?
+		// No match?
 		if (s === was) {
-			i = s.indexOf(" ");
-			s = i < 0 ? "" : s.substr(i);
+			throw "invalid suffix(es) '" + s + "'";
 		}
 	}
-
+	// Loop input titles
 	source(function(tiddler,title) {
 		var s2,splits;
+		// Remember input title
 		input.push(title);
-		if(at) {
-			splits = [title.substr(0,at)];
-			s2 = title.substr(at);
+		// Split at character?
+		if($.at) {
+			// Add left part to splits
+			splits = [title.substr(0,$.at)];
+			// Take right part
+			s2 = title.substr($.at);
+			// Got some?
 		  	if(s2) {
+				// Add to splits
 				splits.push(s2);
 			}
+		// Otherwise
 		} else {
-			splits = title.split(split);
+			// Split at split character(s)
+			splits = title.split($.split);
 		}
-		if(splits.length > 1 || keep) {
+		// Retrieve only certain items?
+		if($.pos) {
+			// Retrieve items
+			splits = $tw.utils.getArrayItems(splits,$.pos,$.num,$.strict);
+		}
+		// If we...
+		if(
+			// Got at least two parts OR
+			splits.length > 1 ||
+			// Certain items to grab and at least one OR
+			$.pos && splits.length ||
+			// Keep non-splits
+			$.keep
+		) {
+			// Add to results
 			has.push(title);
+			// Loop split items
 			$tw.utils.each(
 				splits,
 				function(item) {
-					if(trim) {
+					// Do we want to trim it?
+					if($.trim) {
+						// Trim then
 						item = item.trim();
 					}
+					// Got an item?
 					if(item) {
-						item = prepend + item + append;
-						if(!unique || unique  && results.indexOf(item) < 0) {
-							results.push(item);
+						// Only add once when unique, otherwise always add
+						if(!$.unique || $.unique  && results.indexOf(item) < 0) {
+							// Add suffix, prefix and push into output
+							results.push($.prefix + item + $.suffix);
 						}
 					}
+					//else {what to do with empty strings?}
 				}
 			);
+		// No considerable results
 		} else {
+			// Remember this title as having no matches
 			not.push(title);
 		}
 	});
+	// Got any suffix?
 	if(operator.suffix) {
-		switch(mode) {
+		// Check mode
+		switch($.mode) {
+			// Pass titles with splits?
 			case "$":
+				// Ok, let's take them then
 				results = has;
 				break;
+			// Pass all titles if any had splits?
 			case "$all":
+				// Got any splits at all?
 				if(results.length) {
-					if(negate) {
+					// Negating?
+					if($.negate) {
+						// Ok, we'll take none
 						not = [];
+					// Not negating?
 					} else {
+						// Return all input titles
 						results = input;
 					}
-				} else if(negate) {
+				// Got no splits and we're negating?
+				} else if($.negate) {
+					// Ok then return all, since none had splits
 					not = input;
 				}
 				break;
-			case "first":
-				if(neg) {
-					results = results.length === 1 ? [] : results.splice(1);
-				} else {
-					results.splice(1);
-				}
-				break;
-			case "last":
-				if(neg) {
-					if(results.length > 1){
-						results.splice(results.length-1);
-					} else {
-						results = [];
-					}
-				} else {
-					results = results.splice(results.length-1);
-				}
+			// Output a given (number of) item(s)
+			case "$first":
+			case "$last":
+			case "$pos":
+				// Retrieve results
+				results = $tw.utils.getArrayItems(results,$.$pos,$.$num,$.$strict);
 				break;
 		}
 	}
-	return negate ? not : results;
+	// Catch errors
+	} catch (e) {
+		return ["split syntax error:" + e];
+	}
+	// Return results according to negation
+	return $.negate ? not : results;
 };
 
 })();

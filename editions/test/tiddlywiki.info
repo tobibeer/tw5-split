@@ -1,0 +1,14 @@
+{
+	"description": "tobibeer/split tests",
+	"plugins": [
+		"tiddlywiki/jasmine",
+		"tobibeer/split"
+	],
+	"themes": [
+		"tiddlywiki/vanilla"
+	],
+	"build": {
+		"index": [
+			"--rendertiddler","$:/core/save/all","test.html","text/plain"]
+	}
+}

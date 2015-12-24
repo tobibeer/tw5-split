@@ -1,6 +1,7 @@
 created: 20151127145153951
 creator: Tobias Beer
-modified: 20151222220830469
+modified: 20151224131034574
+modifier: Tobias Beer
 tags: 
 title: split-Examples
 type: text/vnd.tiddlywiki
@@ -23,11 +24,19 @@ For details see [[parameters|split-Parameters]]...
 
 <<` """{{{ "foo-bar-baz" +[split:first[-]] }}}""">>
 
+<<` """{{{ "foo-bar-baz" "mumble-frotz-gronk" +[split:first[-]] }}}""">>
+
+<<` """{{{ "foo-bar-baz" "mumble-frotz-gronk" +[split:$first[-]] }}}""">>
+
 <<` """{{{ "foo   -  bar -  baz" +[split:first + trim[-]] }}}""">>
 
 <<` """{{{ "foo-bar-baz" +[split:!first[-]] }}}""">>
 
 <<` """{{{ "foo-bar-baz" +[split:last[-]] }}}""">>
+
+<<` """{{{ "foo-bar-baz" "mumble-frotz-gronk" +[split:last[-]] }}}""">>
+
+<<` """{{{ "foo-bar-baz" "mumble-frotz-gronk" +[split:$last[-]] }}}""">>
 
 <<` """{{{ "foo-bar-baz" +[split:!last[-]] }}}""">>
 
@@ -56,3 +65,61 @@ For details see [[parameters|split-Parameters]]...
 <<` """{{{ [prefix[split]split:$all[-I]] }}}""">>
 
 <<` """{{{ [prefix[split]split:$ keep[-I]] }}}""">>
+
+<hr/>
+
+!! All [[Items|split-Items]] Examples
+
+<<` """{{{ a-b-c d-e-f +[split:first[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:pos=1[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:!first[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:pos=n[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:pos=n[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:!last[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:pos=1 num=2[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:pos=2[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:pos=2 num=2[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:pos=2 num=n[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:pos=-2[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:pos=-2 num=-n[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:num=4[-]] }}}""">>
+
+<<` """<$list filter="a-b-c d-e-f +[split:num=4 strict[-]]" emptyMessage="only got less than 4 each"/>""">>
+
+<<` """{{{ a-b-c d-e-f +[split:$first[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:$pos=1[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:$last[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:$pos=n[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:$pos=1 $num=3[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:$pos=3[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:$pos=3 $num=3[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:$pos=3 $num=n[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:$pos=-3[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:$pos=-3 $num=n[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:$pos=-3 $num=-n[-]] }}}""">>
+
+<<` """{{{ a-b-c d-e-f +[split:$num=7[-]] }}}""">>
+
+<<` """<$list filter="a-b-c d-e-f +[split:$num=7 strict[-]]" emptyMessage="got less than 7 total"/>""">>

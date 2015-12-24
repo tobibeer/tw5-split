@@ -1,0 +1,100 @@
+created: 20151224103305773
+creator: Tobias Beer
+modified: 20151224132529774
+modifier: Tobias Beer
+tags: 
+title: split-Items
+type: text/vnd.tiddlywiki
+
+The ''split[]'' filter operates on one __or more__ given input titles. To specify which items to return use the following suffixes:
+
+; pos=`<number>` / num=`<number>`
+: for each input title in turn, retrieves a ''num''ber of split items starting from a ''pos''ition
+: ''num'' defaults to `1` if unspecified
+: ''num=1'' and ''num=-1'' both mean: take item at ''pos''
+: ''pos=2'' => second item
+: ''pos=n'' => last item
+: ''pos=-2'' => second last item
+: ''pos=-n'' => first item
+: ''num=2'' => including the item at ''pos'', two  items to the right
+: ''num=n'' => starting from ''pos'', all items to the right up until the last item
+: ''num=-2'' => including the item at ''pos'', two  items to the left
+: ''num=-n'' => starting from ''pos'', all items to the left up until the first item
+; first / last
+: for each input item in turn, retrieves the ''first'' or ''last'' split item
+: ''first'' is same as ''pos=1''
+: ''last'' is same as ''pos=n''
+; !first / !last
+: for each input item in turn, retrieves all but the ''first'' or ''last'' split item
+: ''!first'' is same as ''pos=2 num=n''
+: ''!last'' is same as ''pos=-2 num=-n''
+; $pos=`<number>` / $num=`<number>` / $first / !$first / $last / !$last
+: for the __final output__, retrieves a ''$num''ber of split items starting from a ''$pos''ition
+: ''$num'' defaults to `1` if unspecified
+: all options behave equivalent to ''num'', ''pos'', ''first'', ''!first'', ''last'', ''!last'' above, however with respect to the final output
+; strict
+: if specified, expects the defined ''num''ber of returned split items, otherwise returns nothing at all
+: for `[[1-2]] +[split:num=3 strict[-]]` we get nothing, since `1-2` does not have three items when splitting at `-`
+
+@@.note
+''Note:'' At the bottom of the [[examples|split-Examples]] is a live-demo of each example below.
+@@
+
+How these suffixes behave with respect to the two input titles `a-b-c` and `d-e-f`:
+
+; first / pos=1
+: 1st split item each@@.demo-items ''a'' b c ''d'' e f@@
+; !first
+: all but the 1st split item each@@.demo-items a ''b c'' d ''e f''@@
+; last / pos=n
+: last split item each@@.demo-items a b ''c'' d e ''f''@@
+; !last
+: all but the last split item each@@.demo-items ''a b'' c ''d e'' f@@
+; pos=1 num=2
+: the first two split items each@@.demo-items ''a b'' c ''d e'' f@@
+; pos=2
+: the 2nd split item each@@.demo-items a ''b'' c d ''e'' f@@
+; pos=2 num=2
+: two split items each, starting from the 2nd@@.demo-items a ''b c'' d ''e f''@@
+; pos=2 num=n
+: all split items to the right of and including the 2nd each@@.demo-items a ''b c'' d ''e f''@@
+; pos=-2
+: 2nd last split item each@@.demo-items a ''b'' c d ''e'' f@@
+; pos=-2 num=-n
+: all split items to the left of and including the 2nd last each@@.demo-items ''a b'' c ''d e'' f@@
+; num=4
+: four items each@@.demo-items ''a b c d e f''@@
+; num=4 strict
+: four items each, strict@@.demo-items a b c d e f@@
+; $first / $pos=1
+: 1st item@@.demo-items ''a'' b c d e f@@
+; $last / $pos=n
+: last item@@.demo-items a b c d e ''f''@@
+; $pos=1 $num=3
+: first three items@@.demo-items ''a b c'' d e f@@
+; $pos=3
+: the 3rd  item@@.demo-items a b ''c'' d e f@@
+; $pos=3 $num=3
+: three items, starting from the 3rd@@.demo-items a b ''c d e'' f@@
+; $pos=3 $num=n
+: all items starting from the 3rd@@.demo-items a b ''c d e f''@@
+; $pos=-3
+: 3rd last item@@.demo-items a b c ''d'' e f@@
+; $pos=-3 $num=n
+: all to the right of the 3rd last@@.demo-items a b c ''d e f''@@
+; $pos=-3 $num=-n
+: all to the left of the 3rd last item@@.demo-items ''a b c d'' e f@@
+; $num=7
+: seven items@@.demo-items ''a b c d e f''@@
+; $num=7 strict
+: seven items, strict@@.demo-items a b c d e f@@
+
+<style>
+.demo-items {
+float:right;
+color: #ccc;
+}
+.demo-items strong{
+color: #909;
+}
+</style>
