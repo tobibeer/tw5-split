@@ -1,6 +1,7 @@
 created: 20151127143704922
 creator: Tobias Beer
-modified: 20151222220628457
+modified: 20151224224946622
+modifier: Tobias Beer
 tags: 
 title: split-Install
 type: text/vnd.tiddlywiki
@@ -9,6 +10,13 @@ type: text/vnd.tiddlywiki
 
 !! Version History
 
+; 0.6.5 / 2015-12-24
+: added ''pos'', ''num'', and ''strict''
+: separate options for split items of each input title or final result list
+:: ''pos'', ''num'', ''first'', ''!first'', ''last'', ''!last''
+:: ''$pos'', ''$num'', ''$first'', ''!$first'', ''$last'', ''!$last''
+: extracted ''getArrayItems'' into utils function
+: added test edition
 ; 0.6.0 / 2015-12-22
 : modified default behavior to allow duplicates in the output
 : consequently added suffix ''unique'' to still allow producing unique sets
