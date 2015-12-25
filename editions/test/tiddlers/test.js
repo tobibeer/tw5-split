@@ -53,6 +53,21 @@ describe("test split filter", function() {
 			"1-2 3-4 +[split:last[-]]"
 		).join(",")).toBe("2,4");
 	});
+	it("first should be empty", function() {
+		expect(wiki.filterTiddlers(
+			"[[foo bar]split:first[-]]"
+		).join(",")).toBe("");
+	});
+	it("last should be empty", function() {
+		expect(wiki.filterTiddlers(
+			"[[foo bar]split:last[-]]"
+		).join(",")).toBe("");
+	});
+	it("pos should be empty", function() {
+		expect(wiki.filterTiddlers(
+			"[[foo bar]split:pos=1[-]]"
+		).join(",")).toBe("");
+	});
 	it("pos=1", function() {
 		expect(wiki.filterTiddlers(
 			"1-2 3-4 +[split:pos=1[-]]"
@@ -183,9 +198,9 @@ describe("test split filter", function() {
 			"1-2 +[split:$pos=1 $num=3[-]]"
 		).join(",")).toBe("1,2");
 	});
-	it("$pos=1, $num=3 but only two splits AND strict", function() {
+	it("$pos=1, $num=3 but only two splits AND $strict", function() {
 		expect(wiki.filterTiddlers(
-			"1-2 +[split:$pos=1 $num=3 strict[-]]"
+			"1-2 +[split:$pos=1 $num=3 $strict[-]]"
 		).join(",")).toBe("");
 	});
 	it("1-2 1-2 first => duplicates", function() {

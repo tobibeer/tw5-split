@@ -62,7 +62,7 @@ exports.split = function(source,operator) {
 				}
 			}],
 			// Any of at, first, last, keep, strict or unique ...ignore case
-			[/^(\+|at|first|!first|last|!last|keep|strict|$strict|trim|unique)(?:\s|$)/i, function(match) {
+			[/^(\+|at|first|!first|last|!last|keep|strict|\$strict|trim|unique)(?:\s|$)/i, function(match) {
 				// The match
 				var m = match[1];
 				// By default set option to 1
@@ -185,7 +185,7 @@ exports.split = function(source,operator) {
 	}
 	// Loop input titles
 	source(function(tiddler,title) {
-		var s2,splits;
+		var wasSplit,s2,splits;
 		// Remember input title
 		input.push(title);
 		// Split at character?
@@ -204,6 +204,8 @@ exports.split = function(source,operator) {
 			// Split at split character(s)
 			splits = title.split($.split);
 		}
+		// Remember if we did split anything
+		wasSplit = splits.length > 1;
 		// Retrieve only certain items?
 		if($.pos) {
 			// Retrieve items
@@ -211,12 +213,11 @@ exports.split = function(source,operator) {
 		}
 		// If we...
 		if(
-			// Got at least two parts OR
-			splits.length > 1 ||
-			// Certain items to grab and at least one OR
-			$.pos && splits.length ||
-			// Keep non-splits
-			$.keep
+			// Have anything left
+			splits.length && (
+				// Did split OR keep non-splits
+				wasSplit || $.keep
+			)
 		) {
 			// Add to results
 			has.push(title);

@@ -10,6 +10,10 @@ type: text/vnd.tiddlywiki
 
 !! Version History
 
+; 0.6.6 / 2015-12-25
+: fixed bugs where...
+:: split did not properly identify non-splits and thus returned unexpected items
+:: $strict was ignored due to wrong regex
 ; 0.6.5 / 2015-12-24
 : added ''pos'', ''num'', and ''strict''
 : separate options for split items of each input title or final result list
