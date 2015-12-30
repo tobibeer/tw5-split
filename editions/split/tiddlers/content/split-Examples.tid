@@ -1,26 +1,103 @@
+authors: tobibeer [[Tobias Beer]]
 created: 20151127145153951
 creator: Tobias Beer
-modified: 20151224131034574
+list: a [[b c]] d
+modified: 20151230105352298
 modifier: Tobias Beer
 tags: 
 title: split-Examples
 type: text/vnd.tiddlywiki
 
-For details see [[parameters|split-Parameters]]...
+For details, see [[split syntax|split-Syntax]]...
+
+!! Basics
 
 <<` """{{{ [[1-2-1]split[-]] }}}""">>
 
 <<` """{{{ [[1-2-1]split:unique[-]] }}}""">>
 
-<<` """{{{ "foo-bar" +[split[-]] }}}""">>
+<<` """{{{ "foo-bar" baz +[split[-]] }}}""">>
+
+<<` """{{{ "foo-bar" baz +[split:keep[-]] }}}""">>
+
+!! [[Operand List and List Fields|split-Lists]]
+
+// Split the <<x "Filter Parameter" "operand">> — especially a "soft" operand — interpreted as a "stringified list" into listed titles://
+
+<<` """; example list
+: <$text text={{split-Examples!!list}}/>
+
+{{{ [split:list{split-Examples!!list}] }}}""">>
+
+@@.note
+''Note:'' Using the suffix `list` with an operand __generates__ titles by parsing and splitting the operand as a stringified list of titles, thus __entirely ignoring__ any given input titles!
+@@
+
+// Retrieve items in the ''list'' field of __''any''__ tiddler prefixed `$:/plugins`:<br/>
+(using limit to keep things short)//
+
+<<` """{{{ [prefix[$:/plugins]split:list[]limit[5]] }}}""">>
+
+compare to:
+
+<ul><li>
+
+<<` """{{{ [list[$:/plugins/tobibeer/split]] }}}""">>
+</li></ul>
+
+@@.note
+''Note:'' Unlike the core ''list'' filter, `split:list[]` can handle __any number__ of input titles.
+@@
+
+// Retrieve titles listed in the ''authors'' list field of the tiddler [[split]]://
+
+<ul>
+<li>
+
+either using a "soft" operand being a text-reference:
+
+<<` """{{{ [split:list{split!!authors}] }}}""">>
+</li>
+<li>
+
+or addressing the ''authors'' list field for the input title "split":
+
+<<` """{{{ [[split]split:list=authors[]] }}}""">>
+</li>
+</ul>
+
+// Retrieve titles in the list field ''authors'' of <<x "all Operator" "[all[]]">> tiddlers://
+
+<<` """{{{ [split:list=authors[]] }}}""">>
+
+// Same as above, but unique titles://
+
+<<` """{{{ [split:list=authors unique[]] }}}""">>
+
+// Retrieve tiddlers that have __at least__ two titles listed in the ''authors'' field://
+
+<<` """{{{ [split:$ list=authors num=2 strict[]] }}}""">>
+
+@@.note
+''Note:'' Using the suffix `strict`, the split filter considers only those input titles that yield (at least) the number of [[split items|split-Items]] specified via ''num''. Using the suffix `$`, rather than the matches, titles having matches are returned.
+@@
+
+compare to:
+
+<ul><li>
+
+<<` """{{{ [has[authors]] }}}""">>
+</li></ul>
+
+!! Split By Operand
 
 <<` """{{{ "foo-bar" baz [[mumble-frotz]] +[split[-]] }}}""">>
 
 <<` """{{{ "foo-bar" +[split:+[-]] }}}""">>
 
-<<` """{{{ "foo-bar" +[split:+(...)[-]] }}}""">>
+<<` """{{{ "foo-bar" +[split:+\...\[-]] }}}""">>
 
-<<` """{{{ "foo-bar" +[split:(...)+[-]] }}}""">>
+<<` """{{{ "foo-bar" +[split:\...\+[-]] }}}""">>
 
 <<` """{{{ "foo-bar-baz" +[split:first[-]] }}}""">>
 
@@ -41,6 +118,8 @@ For details see [[parameters|split-Parameters]]...
 <<` """{{{ "foo-bar-baz" +[split:!last[-]] }}}""">>
 
 <<` """{{{ "foo-bar" baz +[split:$[-]] }}}""">>
+
+<<` """{{{ [split:list $first{split-Examples!!list}] }}}""">>
 
 <<` """{{{ 123456 +[split:at[4]] }}}""">>
 
@@ -122,4 +201,4 @@ For details see [[parameters|split-Parameters]]...
 
 <<` """{{{ a-b-c d-e-f +[split:$num=7[-]] }}}""">>
 
-<<` """<$list filter="a-b-c d-e-f +[split:$num=7 strict[-]]" emptyMessage="got less than 7 total"/>""">>
+<<` """<$list filter="a-b-c d-e-f +[split:$num=7 $strict[-]]" emptyMessage="got less than 7 total"/>""">>

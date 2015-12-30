@@ -15,8 +15,22 @@ Tests the make filter.
 describe("test split filter", function() {
 
 	// Create a wiki
-	var wiki = new $tw.Wiki({});
-
+	var wiki = new $tw.Wiki({}),
+		fakeWidget = {
+			getVariable: function(v) {
+				return v === 'currentTiddler' ? 'a' : 'a b [[c d]]';
+			}
+		};
+	wiki.addTiddler({
+		title:"a",
+		list:"a [[b c]] d",
+		tags:"d [[e f]] g"
+	});
+	wiki.addTiddler({
+		title:"b",
+		list:"d [[e f]] g",
+		tags:"a [[b c]] d"
+	});
 	// Tests
 	it("simple split", function() {
 		expect(wiki.filterTiddlers(
@@ -30,17 +44,17 @@ describe("test split filter", function() {
 	});
 	it("prefix", function() {
 		expect(wiki.filterTiddlers(
-			"[[1-2]split:+(X)[-]]"
+			"[[1-2]split:+\\X\\[-]]"
 		).join(",")).toBe("X1,X2");
 	});
 	it("suffix", function() {
 		expect(wiki.filterTiddlers(
-			"[[1-2]split:(X)+[-]]"
+			"[[1-2]split:\\X\\+[-]]"
 		).join(",")).toBe("1X,2X");
 	});
 	it("prefix and suffix", function() {
 		expect(wiki.filterTiddlers(
-			"[[1-2]split:+(X)(Y)+[-]]"
+			"[[1-2]split:+\\X\\\\Y\\+[-]]"
 		).join(",")).toBe("X1Y,X2Y");
 	});
 	it("first", function() {
@@ -277,6 +291,66 @@ describe("test split filter", function() {
 		expect(wiki.filterTiddlers(
 			"1-2-3 4-5-6 +[split:!$last[-]]"
 		).join(",")).toBe("1,2,3,4,5");
+	});
+	it("list", function() {
+		expect(wiki.filterTiddlers(
+			'[split:list<test>]'
+		,fakeWidget).join(",")).toBe("a,b,c d");
+	});
+	it("list $first", function() {
+		expect(wiki.filterTiddlers(
+			'[split:list $first<test>]'
+		,fakeWidget).join(",")).toBe("a");
+	});
+	it("list $last", function() {
+		expect(wiki.filterTiddlers(
+			'[split:list $last<test>]'
+		,fakeWidget).join(",")).toBe("c d");
+	});
+	it("list $pos=2", function() {
+		expect(wiki.filterTiddlers(
+			'[split:list $pos=2<test>]'
+		,fakeWidget).join(",")).toBe("b");
+	});
+	it("list of 3 $pos=2 $num=4", function() {
+		expect(wiki.filterTiddlers(
+			'[split:list $pos=2 $num=4<test>]'
+		,fakeWidget).join(",")).toBe("b,c d");
+	});
+	it("list of 3 $pos=2 $num=4 $strict", function() {
+		expect(wiki.filterTiddlers(
+			'[split:list $pos=2 $num=4 $strict<test>]'
+		,fakeWidget).join(",")).toBe("");
+	});
+	it("split:list[]", function() {
+		expect(wiki.filterTiddlers(
+			'[[a]split:list[]]'
+		,fakeWidget).join(",")).toBe("a,b c,d");
+	});
+	it("split:list=tags[]", function() {
+		expect(wiki.filterTiddlers(
+			'[[a]split:list=tags[]]'
+		,fakeWidget).join(",")).toBe("d,e f,g");
+	});
+	it("split:list[] for two", function() {
+		expect(wiki.filterTiddlers(
+			'a b +[split:list[]]'
+		,fakeWidget).join(",")).toBe("a,b c,d,d,e f,g");
+	});
+	it("split:list=tags[] for two", function() {
+		expect(wiki.filterTiddlers(
+			'a b +[split:list=tags[]]'
+		,fakeWidget).join(",")).toBe("d,e f,g,a,b c,d");
+	});
+	it("split:list[] for two & unique", function() {
+		expect(wiki.filterTiddlers(
+			'a b +[split:list unique[]]'
+		,fakeWidget).join(",")).toBe("a,b c,d,e f,g");
+	});
+	it("split:list=tags[] for two & unique", function() {
+		expect(wiki.filterTiddlers(
+			'a b +[split:list=tags unique[]]'
+		,fakeWidget).join(",")).toBe("d,e f,g,a,b c");
 	});
 });
 

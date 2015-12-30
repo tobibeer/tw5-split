@@ -1,0 +1,28 @@
+created: 20151230103709319
+creator: Tobias Beer
+modified: 20151230105841399
+modifier: Tobias Beer
+tags: 
+title: split-Lists
+type: text/vnd.tiddlywiki
+
+Parse stringified lists with the ''split'' filter by using the suffix `list` specifying either:
+
+# a list field (optional)
+#* from which titles are retrieved for each input title in turn
+#* e.g. ''list'' (default), ''tags'', or any custom list field
+# an <<x "Filter Parameter" operand>>, especially a "soft" operand
+#* interpreted as a stringified list, i.e. parsed like the core ''list'' or ''tags'' <<x TiddlerFields fields>>
+
+<div class="note">''Note:'' Specifying the suffix `list` ''and'' an operand, as in 2. above, __all__ input titles are __ignored__! Instead, titles are __created__ by parsing titles listed in the operand.</div>
+
+!! Variants
+
+; `split:list[]`
+: parses the ''list'' field of __all__ input titles
+; `split:list=tags[]`
+: parses the ''tags'' field of __all__ input titles
+; `split:list=foo[]`
+: parses field ''foo'' of __all__ input titles as a list field
+;`split:list<bar>`
+: splits the "soft" <<x "Filter Parameter" operand>> in the form of the variable ''bar'' into listed titles<div class="note">''Note:'' Since no input titles are considered above, use ''$pos'', ''$num'', ''$first'', etc... to further constrain the final list.</div>

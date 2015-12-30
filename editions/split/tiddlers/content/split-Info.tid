@@ -1,6 +1,7 @@
 created: 20151127145020936
 creator: Tobias Beer
-modified: 20151127150610367
+modified: 20151230081013245
+modifier: Tobias Beer
 tags: 
 title: split-Info
 type: text/vnd.tiddlywiki
@@ -8,7 +9,12 @@ type: text/vnd.tiddlywiki
 The plugin [[$:/plugins/tobibeer/split]] provides:
 
 ; split[]
-: a filter allowing you to split titles by a given operand
-: allowing you to [[slice and dice the output list|split-Items]] as needed
+: a filter to split titles by a given operand or at a given character position
+:: to [[slice and dice the output list|split-Items]] as needed
+:: to parse any list field of input titles, e.g.:
+::: `[tag[Foo]split:list[]]`
+::: `[tag[Foo]split:list=some-list[]]`
+:: to parse any <<x "Filter Parameter" "soft operand">> (variable or text reference) into a list, e.g.:
+::: `[split:list{Some!!list}]`
 
 <<plugin-docs-cp split>>

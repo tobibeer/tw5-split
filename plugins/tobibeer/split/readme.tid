@@ -6,8 +6,8 @@ Provides the filter `split[by]`, splitting input titles `by` a string defined in
 : `$` — return input titles that yield split items
 : `$all` — return all input titles if any yield split items
 : `+` — append operand to split titles
-: `+(x)` — append x to split titles
-: `(x)+` — prepend x to split titles
+: `+\x\` — append x to split titles
+: `\x\+` — prepend x to split titles
 : `unique` — prevents duplicate titles in the output
 : `trim` — no leading/trailing blanks in split titles
 : `first` — first title of the split => `!first` — all but first
@@ -20,6 +20,9 @@ Provides the filter `split[by]`, splitting input titles `by` a string defined in
 : `strict` — specified `num` is mandatory
 : `$pos`, `$num`, `$strict`, `$first`, `$!first`,`$last`, `$!last` — for final list
 : `keep` — return title even if not split
+: `list[]` — parse list field of input titles
+: `list=tags[]` — parse tags field of input titles
+: `list<foo>` — parse (soft) operand as list, e.g. variables or text-references
 
 <br>
 

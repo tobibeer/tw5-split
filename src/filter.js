@@ -16,8 +16,9 @@ Filter operator that splits each item at a specified separator.
 /*
 Export filter function
 */
-exports.split = function(source,operator) {
+exports.split = function(source,operator,options) {
 	var was,
+		wiki = options.wiki,
 		// Shorthand for suffix
 		s = operator.suffix || "",
 		// Output arrays
@@ -62,7 +63,7 @@ exports.split = function(source,operator) {
 				}
 			}],
 			// Any of at, first, last, keep, strict or unique ...ignore case
-			[/^(\+|at|first|!first|last|!last|keep|strict|\$strict|trim|unique)(?:\s|$)/i, function(match) {
+			[/^(\+|at|first|!first|last|!last|list|keep|strict|\$strict|trim|unique)(?:\s|$)/i, function(match) {
 				// The match
 				var m = match[1];
 				// By default set option to 1
@@ -86,6 +87,9 @@ exports.split = function(source,operator) {
 							// Subtract one for array ops
 							$.at = $.at - 1;
 						}
+						break;
+					case "list":
+						$.list = "list";
 						break;
 					// First?
 					case "first":
@@ -112,6 +116,11 @@ exports.split = function(source,operator) {
 						$.num = "-n";
 						break;
 				}
+			}],
+			// list=field
+			[/^list\=\s*([^\s]+)(?:\s|$)/i, function(match) {
+				// Save specified field
+				$.list = match[1];
 			}],
 			// Any of $first, $last, $all or $ ...ignore case
 			[/^(\!)?(\$|\$all|\$first|\$last)(?:\s|$)/i, function(match) {
@@ -145,8 +154,8 @@ exports.split = function(source,operator) {
 					}
 				}
 			}],
-			// Any of +(any thing) or (any thing)+
-			[/^(?:\+\(([^\)]*)\)|\(([^\)]*)\)\+)/, function(match) {
+			// Any of +\any thing\ or \any thing\+
+			[/^(?:\+\\([^\\]+)\\|\\([^\\]+)\\\+)/, function(match) {
 				// Prefix match?
 				if (match[1]) {
 					// Set prefix
@@ -183,70 +192,81 @@ exports.split = function(source,operator) {
 			throw "invalid suffix(es) '" + s + "'";
 		}
 	}
-	// Loop input titles
-	source(function(tiddler,title) {
-		var wasSplit,s2,splits;
-		// Remember input title
-		input.push(title);
-		// Split at character?
-		if($.at) {
-			// Add left part to splits
-			splits = [title.substr(0,$.at)];
-			// Take right part
-			s2 = title.substr($.at);
-			// Got some?
-		  	if(s2) {
-				// Add to splits
-				splits.push(s2);
-			}
-		// Otherwise
-		} else {
-			// Split at split character(s)
-			splits = title.split($.split);
-		}
-		// Remember if we did split anything
-		wasSplit = splits.length > 1;
-		// Retrieve only certain items?
-		if($.pos) {
-			// Retrieve items
-			splits = $tw.utils.getArrayItems(splits,$.pos,$.num,$.strict);
-		}
-		// If we...
-		if(
-			// Have anything left
-			splits.length && (
-				// Did split OR keep non-splits
-				wasSplit || $.keep
-			)
-		) {
-			// Add to results
-			has.push(title);
-			// Loop split items
-			$tw.utils.each(
-				splits,
-				function(item) {
-					// Do we want to trim it?
-					if($.trim) {
-						// Trim then
-						item = item.trim();
-					}
-					// Got an item?
-					if(item) {
-						// Only add once when unique, otherwise always add
-						if(!$.unique || $.unique  && results.indexOf(item) < 0) {
-							// Add suffix, prefix and push into output
-							results.push($.prefix + item + $.suffix);
-						}
-					}
-					//else {what to do with empty strings?}
+	// Split operand as list?
+	if($.list && $.split) {
+		// Parse operand as list
+	 	results = $tw.utils.parseStringArray($.split);
+	// Otherwise
+	} else {
+		// Loop input titles
+		source(function(tiddler,title) {
+			var wasSplit,s2,splits;
+			// Remember input title
+			input.push(title);
+			// Split at character?
+			if($.at) {
+				// Add left part to splits
+				splits = [title.substr(0,$.at)];
+				// Take right part
+				s2 = title.substr($.at);
+				// Got some?
+				if(s2) {
+					// Add to splits
+					splits.push(s2);
 				}
-			);
-		// No considerable results
-		} else {
-			// Remember this title as having no matches
-			not.push(title);
-		}
-	});
+			// Parse list-field?
+			} else if($.list) {
+				// Get titles from list field
+				splits = wiki.getTiddlerList(title,$.list);
+			// Otherwise simply...
+			} else {
+				// Split at split character(s)
+				splits = title.split($.split);
+			}
+			// Remember if we did split anything
+			wasSplit = splits.length > 1 || $.list;
+			// Retrieve only certain items?
+			if($.pos) {
+				// Retrieve items
+				splits = $tw.utils.getArrayItems(splits,$.pos,$.num,$.strict);
+			}
+			// If we...
+			if(
+				// Have anything left
+				splits.length && (
+					// Did split OR keep non-splits
+					wasSplit || $.keep
+				)
+			) {
+				// Add to results
+				has.push(title);
+				// Loop split items
+				$tw.utils.each(
+					splits,
+					function(item) {
+						// Do we want to trim it?
+						if($.trim) {
+							// Trim then
+							item = item.trim();
+						}
+						// Got an item?
+						if(item) {
+							// Only add once when unique, otherwise always add
+							if(!$.unique || $.unique  && results.indexOf(item) < 0) {
+								// Add suffix, prefix and push into output
+								results.push($.prefix + item + $.suffix);
+							}
+						}
+						//else {what to do with empty strings?}
+					}
+				);
+			// No considerable results
+			} else {
+				// Remember this title as having no matches
+				not.push(title);
+			}
+		});
+	}
 	// Got any suffix?
 	if(operator.suffix) {
 		// Check mode

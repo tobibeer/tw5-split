@@ -1,6 +1,6 @@
 created: 20151127143704922
 creator: Tobias Beer
-modified: 20151224224946622
+modified: 20151230063310041
 modifier: Tobias Beer
 tags: 
 title: split-Install
@@ -10,6 +10,8 @@ type: text/vnd.tiddlywiki
 
 !! Version History
 
+; 0.7.0 / 2015-12-30
+: introducing suffix `list` to parse any soft operand as a stringified list of titles
 ; 0.6.6 / 2015-12-25
 : fixed bugs where...
 :: split did not properly identify __non-splits__ and thus returned unexpected items

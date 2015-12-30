@@ -1,6 +1,6 @@
 created: 20151127150718797
 creator: Tobias Beer
-modified: 20151224132446468
+modified: 20151230104213412
 modifier: Tobias Beer
 tags: 
 title: split-Syntax
@@ -8,7 +8,7 @@ type: text/vnd.tiddlywiki
 
 !! Operand
 
-The operand of ''split[]'' defines the characters by which to split input titles.
+Unless used with the suffix `list`, the operand of ''split[]'' defines the characters by which to split input titles.
 
 !! Suffix
 
@@ -22,13 +22,13 @@ You can define a number of suffix elements some of which can be meaningfully com
 : instead of the split items, if any of the input titles that yield split items, returns all input titles, unmodified
 ; +
 : adds the operand to the split items
-; +(string)
+; +\string\
 : appends `string` to the split items
-; (string)+
+; \string\+
 : prepends `string` to the split items
 ; trim
 : trims all blanks from split items
-; pos, num, first, !first, last, !last / $pos, $num, $first, !$first, $last, !$last
+; pos, num, first, !first, last, !last, strict<br/>$pos, $num, $first, !$first, $last, !$last, $strict
 : see [[Items|split-Items]]
 ; at
 : splits the input title in two items at the character specified as a number in the operand
@@ -38,3 +38,5 @@ You can define a number of suffix elements some of which can be meaningfully com
 ; unique
 : prevents duplicates in the output
 :: this would be the default behavior of ~TiddlyWiki filters that treat titles more as sets of unique titles rather than lists of arbitrary strings
+; list
+: see [[Lists|split-Lists]]

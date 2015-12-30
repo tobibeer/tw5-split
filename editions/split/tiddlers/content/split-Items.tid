@@ -1,12 +1,12 @@
 created: 20151224103305773
 creator: Tobias Beer
-modified: 20151224132529774
+modified: 20151230110002647
 modifier: Tobias Beer
 tags: 
 title: split-Items
 type: text/vnd.tiddlywiki
 
-The ''split[]'' filter operates on one __or more__ given input titles. To specify which items to return use the following suffixes:
+The ''split[]'' filter may return one __or more__ split titles. To further constrain which items to return use the following suffixes:
 
 ; pos=`<number>` / num=`<number>`
 : for each input title in turn, retrieves a ''num''ber of split items starting from a ''pos''ition
@@ -28,13 +28,13 @@ The ''split[]'' filter operates on one __or more__ given input titles. To specif
 : for each input item in turn, retrieves all but the ''first'' or ''last'' split item
 : ''!first'' is same as ''pos=2 num=n''
 : ''!last'' is same as ''pos=-2 num=-n''
-; $pos=`<number>` / $num=`<number>` / $first / !$first / $last / !$last
-: for the __final output__, retrieves a ''$num''ber of split items starting from a ''$pos''ition
-: ''$num'' defaults to `1` if unspecified
-: all options behave equivalent to ''num'', ''pos'', ''first'', ''!first'', ''last'', ''!last'' above, however with respect to the final output
 ; strict
 : if specified, expects the defined ''num''ber of returned split items, otherwise returns nothing at all
 : for `[[1-2]] +[split:num=3 strict[-]]` we get nothing, since `1-2` does not have three items when splitting at `-`
+; $pos=`<number>` / $num=`<number>` / $first / !$first / $last / !$last / $strict
+: for the __final output__, retrieves a ''$num''ber of split items starting from a ''$pos''ition
+: ''$num'' defaults to `1` if unspecified
+: all options behave equivalent to ''num'', ''pos'', ''first'', ''!first'', ''last'', ''!last'', ''$strict'' above, however with respect to the final output
 
 @@.note
 ''Note:'' At the bottom of the [[examples|split-Examples]] is a live-demo of each example below.
