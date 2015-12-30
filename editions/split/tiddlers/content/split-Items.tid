@@ -1,12 +1,12 @@
 created: 20151224103305773
 creator: Tobias Beer
-modified: 20151230110002647
+modified: 20151230114223229
 modifier: Tobias Beer
 tags: 
 title: split-Items
 type: text/vnd.tiddlywiki
 
-The ''split[]'' filter may return one __or more__ split titles. To further constrain which items to return use the following suffixes:
+The ''split[]'' filter may return one __or more__ split titles. To further constrain which items to return use the following ''suffixes'':
 
 ; pos=`<number>` / num=`<number>`
 : for each input title in turn, retrieves a ''num''ber of split items starting from a ''pos''ition
