@@ -25,4 +25,4 @@ Parse stringified lists with the ''split'' filter by using the suffix `list` spe
 ; `split:list=foo[]`
 : parses field ''foo'' of __all__ input titles as a list field
 ;`split:list<bar>`
-: splits the "soft" <<x "Filter Parameter" operand>> in the form of the variable ''bar'' into listed titles<div class="note">''Note:'' Since no input titles are considered above, use ''$pos'', ''$num'', ''$first'', etc... to further constrain the final list.</div>
+: splits the "soft" <<x "Filter Parameter" operand>> in the form of the variable ''bar'' into listed titles<div class="note">''Note:'' Since no input titles are considered above, use ''$pos'', ''$num'', ''$first'', etc... to further constrain the final list, see [[Items|split-Items]].</div>
