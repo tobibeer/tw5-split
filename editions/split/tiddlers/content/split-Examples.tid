@@ -2,9 +2,10 @@ authors: [[Tobias Beer]] [[Just Tobi]]
 created: 20151127145153951
 creator: Tobias Beer
 list: a [[b c]] d
-modified: 20151230120340134
+modified: 20160107113844166
 modifier: Tobias Beer
-tags: 
+summary: examples for the [[split]] filter
+tags: split Examples
 title: split-Examples
 type: text/vnd.tiddlywiki
 
