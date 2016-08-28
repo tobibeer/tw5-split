@@ -2,7 +2,7 @@ authors: [[Tobias Beer]] [[Just Tobi]]
 created: 20151127145153951
 creator: Tobias Beer
 list: a [[b c]] d
-modified: 20160107113844166
+modified: 20160828054746042
 modifier: Tobias Beer
 summary: examples for the [[split]] filter
 tags: split Examples
@@ -203,3 +203,11 @@ compare to:
 <<` """{{{ a-b-c d-e-f +[split:$num=7[-]] }}}""">>
 
 <<` """<$list filter="a-b-c d-e-f +[split:$num=7 $strict[-]]" emptyMessage="got less than 7 total"/>""">>
+
+''split a javascript array into items''<br>
+a [[reply to Danielo Rodriguez|https://groups.google.com/d/msg/tiddlywiki/wC2uxrw5gPg/_eurbeqPBgAJ]]
+
+<$macrocall $name ="`" text="""<$vars array="[ 1, 2 ,3 , 4 , 5]" p="[" s="]">
+<$list filter="[<array>removeprefix<p>removesuffix<s>split:trim[,]]">
+-<<currentTiddler>>-<br>
+</$list></$vars>""">
