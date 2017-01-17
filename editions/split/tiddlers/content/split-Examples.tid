@@ -2,7 +2,7 @@ authors: [[Tobias Beer]] [[Just Tobi]]
 created: 20151127145153951
 creator: Tobias Beer
 list: a [[b c]] d
-modified: 20170117212934396
+modified: 20170117220815454
 modifier: Tobias Beer
 summary: examples for the [[split]] filter
 tags: split Examples
@@ -128,15 +128,15 @@ compare to:
 
 <<` """{{{ 123456 +[split:at[4,2]] }}}""">>
 
-<<` """{{{ 123456 +[split:first at[4,2]] }}}""">>
+<<` """{{{ 123456 +[split:!at[4,2]] }}}""">>
 
-<<` """<$list filter="[[123456]split:at[40]]" emptyMessage="none"/>""">>
+<<` """<$list filter="[[123456]split:at[10]]" emptyMessage="none"/>""">>
 
-<<` """<$list filter="[[123456]split:keep at[40]]" emptyMessage="none"/>""">>
+<<` """<$list filter="[[123456]split:keep at[10]]" emptyMessage="none"/>""">>
 
-<<` """<$list filter="[[123456]split:at[40,10]]" emptyMessage="none"/>""">>
+<<` """<$list filter="[[123456]split:at[10,2]]" emptyMessage="none"/>""">>
 
-<<` """<$list filter="[[123456]split:keep at[40,10]]" emptyMessage="none"/>""">>
+<<` """<$list filter="[[123456]split:keep at[10,2]]" emptyMessage="none"/>""">>
 
 <<` """<$list filter="[[foo]split[-]]" emptyMessage="none"/>""">>
 

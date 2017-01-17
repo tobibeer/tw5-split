@@ -12,7 +12,9 @@ Provides the filter `split[by]`, splitting input titles `by` a string defined in
 : `trim` — no leading/trailing blanks in split titles
 : `first` — first title of the split => `!first` — all but first
 : `last` — last title of the split => `!last` — all but last
-: `at` — split in two at number in the operand, optional length comma separated
+: `at[<num>]` — split in two at number in the operand
+: `at[<num>,<len>]` — slice out ''len'' characters starting at character ''num''
+: `!at[<num>,<len>]` — cutting the above out of the input title
 : `pos=2` — 2nd split item of each input title in turn
 : `pos=1 num=3` — first three each
 : `pos=2 num=n` — 2nd to last each

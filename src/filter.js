@@ -63,7 +63,7 @@ exports.split = function(source,operator,options) {
 				}
 			}],
 			// Any of at, first, last, keep, strict or unique ...ignore case
-			[/^(\+|at|first|!first|last|!last|list|keep|strict|\$strict|trim|unique)(?:\s|$)/i, function(match) {
+			[/^(\+|at|!at|first|!first|last|!last|list|keep|strict|\$strict|trim|unique)(?:\s|$)/i, function(match) {
 				// The match
 				var m = match[1];
 				// By default set option to 1
@@ -75,6 +75,8 @@ exports.split = function(source,operator,options) {
 						$.suffix = $.split;
 						break;
 					// Split at character
+					case "!at":
+						$.nat = 1;
 					case "at":
 						// Match range
 						at = $.split.match(/(\d+),(\d+)/);
@@ -216,14 +218,12 @@ exports.split = function(source,operator,options) {
 			// Split at character?
 			if($.at) {
 				if($.to) {
-					splits = [title.substr($.at,$.to)];
-					if($.keep || title.length > $.at + $.to){
-						s2 = title.substr(0,$.at) + title.substr($.at+$.to);
-						// Got some?
-						if(s2) {
-							// Add to splits
-							splits.push(s2);
-						}
+					splits =
+						$.nat ?
+						[title.substr(0,$.at) + title.substr($.at+$.to)] :
+						[title.substr($.at,$.to)];
+					if($.keep && splits[0] === "") {
+						splits[0] = title;
 					}
 				} else {
 					// Add left part to splits
@@ -246,7 +246,7 @@ exports.split = function(source,operator,options) {
 				splits = title.split($.split);
 			}
 			// Remember if we did split anything
-			wasSplit = splits.length > 1 || $.list;
+			wasSplit = splits.length > 1 || $.list || $.to && splits.length > 0;
 			// Retrieve only certain items?
 			if($.pos) {
 				// Retrieve items
