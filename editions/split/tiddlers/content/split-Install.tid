@@ -1,6 +1,6 @@
 created: 20151127143704922
 creator: Tobias Beer
-modified: 20170117221058138
+modified: 20170117221451942
 modifier: Tobias Beer
 tags: 
 title: split-Install
@@ -10,7 +10,7 @@ type: text/vnd.tiddlywiki
 
 !! Version History
 
-; 0.7.1 / 2017-01-17
+; 0.7.2 / 2017-01-17
 : added `at[<character>,<length>]` to emulate substr (starting at 1, though)
 : added `!at[<character>,<length>]` to cut out what substr would have fetched
 ; 0.7.0 / 2015-12-30
