@@ -17,7 +17,7 @@ Filter operator that splits each item at a specified separator.
 Export filter function
 */
 exports.split = function(source,operator,options) {
-	var was,
+	var at,was,
 		wiki = options.wiki,
 		// Shorthand for suffix
 		s = operator.suffix || "",
@@ -76,16 +76,26 @@ exports.split = function(source,operator,options) {
 						break;
 					// Split at character
 					case "at":
-						// Parse as num
-						$.at = parseInt($.split);
+						// Match range
+						at = $.split.match(/(\d+),(\d+)/);
+						// When range
+						if(at){
+							// Get from and to
+							$.at = parseInt(at[1]);
+							$.to = parseInt(at[2]);
+						// Otherwise get position
+						} else {
+							// Parse as num
+							$.at = parseInt($.split);
+						}
 						// Not a number?
 						if(isNaN($.at)) {
 							// Error
-							throw "suffix 'at' must be a number: " + $.at;
+							throw "suffix 'at' must be numeric: " + $.at;
 						// Got a number?
 						} else {
-							// Subtract one for array ops
-							$.at = $.at - 1;
+							// Subtract one for string ops
+							$.at = $.at-1;
 						}
 						break;
 					case "list":
@@ -205,14 +215,26 @@ exports.split = function(source,operator,options) {
 			input.push(title);
 			// Split at character?
 			if($.at) {
-				// Add left part to splits
-				splits = [title.substr(0,$.at)];
-				// Take right part
-				s2 = title.substr($.at);
-				// Got some?
-				if(s2) {
-					// Add to splits
-					splits.push(s2);
+				if($.to) {
+					splits = [title.substr($.at,$.to)];
+					if($.keep || title.length > $.at + $.to){
+						s2 = title.substr(0,$.at) + title.substr($.at+$.to);
+						// Got some?
+						if(s2) {
+							// Add to splits
+							splits.push(s2);
+						}
+					}
+				} else {
+					// Add left part to splits
+					splits = [title.substr(0,$.at)];
+					// Take right part
+					s2 = title.substr($.at);
+					// Got some?
+					if(s2) {
+						// Add to splits
+						splits.push(s2);
+					}
 				}
 			// Parse list-field?
 			} else if($.list) {

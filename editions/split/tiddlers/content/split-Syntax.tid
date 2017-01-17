@@ -1,6 +1,6 @@
 created: 20151127150718797
 creator: Tobias Beer
-modified: 20151230104213412
+modified: 20170117213523658
 modifier: Tobias Beer
 tags: 
 title: split-Syntax
@@ -33,6 +33,7 @@ You can define a number of suffix elements some of which can be meaningfully com
 ; at
 : splits the input title in two items at the character specified as a number in the operand
 : returns nothing should the input title be shorter than the specified number
+: using `at[4,2]` splits at the `4`th character for a length of `2` characters
 ; keep
 : returns the input title even it was not split as requested
 ; unique
