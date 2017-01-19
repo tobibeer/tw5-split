@@ -62,7 +62,7 @@ exports.split = function(source,operator,options) {
 					$.pos = 1;
 				}
 			}],
-			// Any of at, first, last, keep, strict or unique ...ignore case
+			// Any of +, at, first, last, keep, strict or unique ...ignore case
 			[/^(\+|at|!at|first|!first|last|!last|list|keep|strict|\$strict|trim|unique)(?:\s|$)/i, function(match) {
 				// The match
 				var m = match[1];
@@ -128,6 +128,13 @@ exports.split = function(source,operator,options) {
 						$.num = "-n";
 						break;
 				}
+			}],
+			// Any of before, after, beforelast, afterlast ...ignore case
+			[/^(before|after|beforelast|afterlast)(?:\s|$)/i, function(match) {
+				// The match
+				var m = match[1];
+				$.before = (m.toLowerCase().indexOf("before") === 0 ? 1 : 2) +
+					(m.toLowerCase().indexOf("last") === m.length-4 ? 2 : 0);
 			}],
 			// list=field
 			[/^list\=\s*([^\s]+)(?:\s|$)/i, function(match) {
@@ -215,8 +222,26 @@ exports.split = function(source,operator,options) {
 			var wasSplit,s2,splits;
 			// Remember input title
 			input.push(title);
+			// Split before / after?
+			if($.before) {
+				at = 1 + (
+					$.before < 3 ?
+					title.indexOf($.split):
+					title.lastIndexOf($.split)
+				);
+				if(at <= title.length) {
+					splits = [
+						$.before % 2 === 1 ?
+						title.substr(0,at-1) :
+						title.substr(at)
+					];
+				}
+				// Keep when not split?
+				if($.keep && at === 0) {
+					splits[0] = title;
+				}
 			// Split at character?
-			if($.at) {
+			} else if($.at) {
 				if($.to) {
 					splits =
 						$.nat ?
@@ -246,7 +271,7 @@ exports.split = function(source,operator,options) {
 				splits = title.split($.split);
 			}
 			// Remember if we did split anything
-			wasSplit = splits.length > 1 || $.list || $.to && splits.length > 0;
+			wasSplit = splits.length > 1 || $.list || ($.before || $.to && splits.length > 0);
 			// Retrieve only certain items?
 			if($.pos) {
 				// Retrieve items

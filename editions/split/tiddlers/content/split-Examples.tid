@@ -2,7 +2,7 @@ authors: [[Tobias Beer]] [[Just Tobi]]
 created: 20151127145153951
 creator: Tobias Beer
 list: a [[b c]] d
-modified: 20170117220815454
+modified: 20170119074453131
 modifier: Tobias Beer
 summary: examples for the [[split]] filter
 tags: split Examples
@@ -20,6 +20,16 @@ For details, see [[split syntax|split-Syntax]]...
 <<` """{{{ "foo-bar" baz +[split[-]] }}}""">>
 
 <<` """{{{ "foo-bar" baz +[split:keep[-]] }}}""">>
+
+<<` """{{{ [[foo.bar.baz]split:before[.]] }}}""">>
+
+<<` """{{{ [[foo.bar.baz]split:after[.]] }}}""">>
+
+<<` """{{{ [[foo.bar.baz]split:beforelast[.]] }}}""">>
+
+<<` """{{{ [[foo.bar.baz]split:afterlast[.]] }}}""">>
+
+<<` """{{{ [[foo.bar.baz]split:keep before[?]] }}}""">>
 
 !! [[Operand List and List Fields|split-Lists]]
 

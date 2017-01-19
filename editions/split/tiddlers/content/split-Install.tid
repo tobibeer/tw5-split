@@ -1,6 +1,6 @@
 created: 20151127143704922
 creator: Tobias Beer
-modified: 20170117221451942
+modified: 20170119074329763
 modifier: Tobias Beer
 tags: 
 title: split-Install
@@ -10,6 +10,12 @@ type: text/vnd.tiddlywiki
 
 !! Version History
 
+; 0.7.5 / 2017-01-19
+: `split:before[.]` to return input title ''up until'' the ''first'' match of `.`
+: `split:after[.]` to return input title ''after'' the ''first'' match of `.`
+: `split:beforelast[.]` to return input title ''up until'' the ''last'' match of `.`
+: `split:afterlast[.]` return input title ''after'' the ''last'' match of `.`
+: unit tests for the above & `split:at[1,2]`
 ; 0.7.2 / 2017-01-17
 : added `at[<character>,<length>]` to emulate substr (starting at 1, though)
 : added `!at[<character>,<length>]` to cut out what substr would have fetched

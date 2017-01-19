@@ -352,6 +352,96 @@ describe("test split filter", function() {
 			'a b +[split:list=tags unique[]]'
 		,fakeWidget).join(",")).toBe("d,e f,g,a,b c");
 	});
+	it("should split at[2,3]", function() {
+		expect(wiki.filterTiddlers(
+			'[[abcde]split:at[2,3]]'
+		,fakeWidget).join(",")).toBe("bcd");
+	});
+	it("should not split at[6,7]", function() {
+		expect(wiki.filterTiddlers(
+			'[[abcde]split:at[6,7]]'
+		,fakeWidget).join(",")).toBe("");
+	});
+	it("should keep at[6,7]", function() {
+		expect(wiki.filterTiddlers(
+			'[[abcde]split:keep at[6,7]]'
+		,fakeWidget).join(",")).toBe("abcde");
+	});
+	it("should split !at[2,3]", function() {
+		expect(wiki.filterTiddlers(
+			'[[abcde]split:!at[2,3]]'
+		,fakeWidget).join(",")).toBe("ae");
+	});
+	it("should not split !at[6,7]", function() {
+		expect(wiki.filterTiddlers(
+			'[[abcde]split:at[6,7]]'
+		,fakeWidget).join(",")).toBe("");
+	});
+	it("should keep !at[6,7]", function() {
+		expect(wiki.filterTiddlers(
+			'[[abcde]split:keep !at[6,7]]'
+		,fakeWidget).join(",")).toBe("abcde");
+	});
+	it("should split before", function() {
+		expect(wiki.filterTiddlers(
+			'[[foo.bar.baz]split:before[.]]'
+		,fakeWidget).join(",")).toBe("foo");
+	});
+	it("should split after", function() {
+		expect(wiki.filterTiddlers(
+			'[[foo.bar.baz]split:after[.]]'
+		,fakeWidget).join(",")).toBe("bar.baz");
+	});
+	it("should split before last", function() {
+		expect(wiki.filterTiddlers(
+			'[[foo.bar.baz]split:beforelast[.]]'
+		,fakeWidget).join(",")).toBe("foo.bar");
+	});
+	it("should split after last", function() {
+		expect(wiki.filterTiddlers(
+			'[[foo.bar.baz]split:afterlast[.]]'
+		,fakeWidget).join(",")).toBe("baz");
+	});
+	it("should split before empty", function() {
+		expect(wiki.filterTiddlers(
+			'[[.foo.bar.baz]split:before[.]]'
+		,fakeWidget).join(",")).toBe("");
+	});
+	it("should split after empty", function() {
+		expect(wiki.filterTiddlers(
+			'[[foo.]split:after[.]]'
+		,fakeWidget).join(",")).toBe("");
+	});
+	it("should split before last empty", function() {
+		expect(wiki.filterTiddlers(
+			'[[.foo]split:beforelast[.]]'
+		,fakeWidget).join(",")).toBe("");
+	});
+	it("should split after last empty", function() {
+		expect(wiki.filterTiddlers(
+			'[[bar.baz.]split:afterlast[.]]'
+		,fakeWidget).join(",")).toBe("");
+	});
+	it("should keep for split before", function() {
+		expect(wiki.filterTiddlers(
+			'[[abc]split:keep before[?]]'
+		,fakeWidget).join(",")).toBe("abc");
+	});
+	it("should keep for split after", function() {
+		expect(wiki.filterTiddlers(
+			'[[abc]split:keep after[?]]'
+		,fakeWidget).join(",")).toBe("abc");
+	});
+	it("should keep for split before last", function() {
+		expect(wiki.filterTiddlers(
+			'[[abc]split:keep beforelast[?]]'
+		,fakeWidget).join(",")).toBe("abc");
+	});
+	it("should keep for split after last", function() {
+		expect(wiki.filterTiddlers(
+			'[[abc]split:keep afterlast[?]]'
+		,fakeWidget).join(",")).toBe("abc");
+	});
 });
 
 })();
