@@ -11,10 +11,6 @@ type: text/vnd.tiddlywiki
 !! Version History
 
 ; 0.8.0 / 2017-01-19
-: fixed bugs with suffixes introduced in ''0.7.5'' where...
-:: input titles would be returned where no split occurs
-:: the output would be wrong for an operand with a length > 1
-; 0.7.5 / 2017-01-19
 : `split:before[.]` to return input title ''up until'' the ''first'' match of `.`
 : `split:after[.]` to return input title ''after'' the ''first'' match of `.`
 : `split:beforelast[.]` to return input title ''up until'' the ''last'' match of `.`
