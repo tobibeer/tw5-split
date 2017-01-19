@@ -219,7 +219,7 @@ exports.split = function(source,operator,options) {
 	} else {
 		// Loop input titles
 		source(function(tiddler,title) {
-			var wasSplit,s2,splits;
+			var wasSplit,s2,splits=[];
 			// Remember input title
 			input.push(title);
 			// Split before / after?
@@ -229,11 +229,11 @@ exports.split = function(source,operator,options) {
 					title.indexOf($.split):
 					title.lastIndexOf($.split)
 				);
-				if(at <= title.length) {
+				if(at > 0) {
 					splits = [
 						$.before % 2 === 1 ?
 						title.substr(0,at-1) :
-						title.substr(at)
+						title.substr(at+$.split.length-1)
 					];
 				}
 				// Keep when not split?
@@ -271,7 +271,7 @@ exports.split = function(source,operator,options) {
 				splits = title.split($.split);
 			}
 			// Remember if we did split anything
-			wasSplit = splits.length > 1 || $.list || ($.before || $.to && splits.length > 0);
+			wasSplit = splits.length > 1 || $.list || splits.length > 0 && ($.before || $.to);
 			// Retrieve only certain items?
 			if($.pos) {
 				// Retrieve items

@@ -402,6 +402,46 @@ describe("test split filter", function() {
 			'[[foo.bar.baz]split:afterlast[.]]'
 		,fakeWidget).join(",")).toBe("baz");
 	});
+	it("should not return for split before", function() {
+		expect(wiki.filterTiddlers(
+			'[[foo]split:before[.]]'
+		,fakeWidget).join(",")).toBe("");
+	});
+	it("should not return for split after", function() {
+		expect(wiki.filterTiddlers(
+			'[[foo]split:after[.]]'
+		,fakeWidget).join(",")).toBe("");
+	});
+	it("should not return for split before last", function() {
+		expect(wiki.filterTiddlers(
+			'[[foo]split:beforelast[.]]'
+		,fakeWidget).join(",")).toBe("");
+	});
+	it("should not return for split after last", function() {
+		expect(wiki.filterTiddlers(
+			'[[foo]split:afterlast[.]]'
+		,fakeWidget).join(",")).toBe("");
+	});
+	it("should split before operand.length > 1", function() {
+		expect(wiki.filterTiddlers(
+			'[[foo.bar.baz]split:before[.bar.]]'
+		,fakeWidget).join(",")).toBe("foo");
+	});
+	it("should split after operand.length > 1", function() {
+		expect(wiki.filterTiddlers(
+			'[[foo.bar.baz]split:after[.bar.]]'
+		,fakeWidget).join(",")).toBe("baz");
+	});
+	it("should split before last operand.length > 1", function() {
+		expect(wiki.filterTiddlers(
+			'[[foo.bar.baz]split:beforelast[.ba]]'
+		,fakeWidget).join(",")).toBe("foo.bar");
+	});
+	it("should split after last operand.length > 1", function() {
+		expect(wiki.filterTiddlers(
+			'[[foo.bar.baz]split:afterlast[.ba]]'
+		,fakeWidget).join(",")).toBe("z");
+	});
 	it("should split before empty", function() {
 		expect(wiki.filterTiddlers(
 			'[[.foo.bar.baz]split:before[.]]'
